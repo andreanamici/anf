@@ -50,7 +50,7 @@ try
    {
       // CLI show info *****************************
    
-      echo $command->getColoredString("Anweb framework console, premere 'q' per uscire dalla command line\n",$command::COLOR_LIGHT_GREEN);
+      echo $command->getColoredString("anf framework console, premere 'q' per uscire dalla command line\n",$command::COLOR_LIGHT_GREEN);
       echo PHP_EOL."Kernel environment: ".$command->getColoredString($kernel->getEnvironment(),$command::COLOR_GREEN);
       echo PHP_EOL."Kernel debug:       ".($kernel->isDebugActive() ? $command->getColoredString("true",$command::COLOR_GREEN) : $command->getColoredString("false",$command::COLOR_RED));
 
