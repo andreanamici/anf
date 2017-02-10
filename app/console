@@ -1,0 +1,119 @@
+#!/usr/bin/env php
+<?php
+/**
+ * anframework
+ * 
+ * Console command line tool
+ * 
+ * @author Andrea Namici 
+ * @mailto: andrea.namici@gmail.com
+ */  
+try
+{
+   /**
+    * Load Kernel
+    */
+   $kernel          = require_once '__bootstrap.php';/*@var $kernel \Application_Kernel*/   
+ 
+   require_once dirname(__FILE__).'/../lib/class/Interface/Interface_ApplicationCommands.int.php';
+   require_once dirname(__FILE__).'/../lib/class/Interface/Interface_ArrayTraversable.int.php';
+   require_once dirname(__FILE__).'/../lib/application/Application_CliColors.app.php';
+   require_once dirname(__FILE__).'/../lib/application/Application_ArrayBag.app.php';
+   require_once dirname(__FILE__).'/../lib/application/Application_CommandsData.app.php';
+   require_once dirname(__FILE__).'/../lib/application/Application_Commands.app.php';  
+   
+   $commandData     = \Application_Commands::getParseCommandsFromArgv($argv);
+      
+   $env             = $commandData->getOptions()->getVal('env',Application_Kernel::DEFAULT_ENVIRONMENT);
+   $debug           = (bool) $commandData->getOptions()->getVal('debug',Application_Kernel::DEFAULT_DEBUG);
+         
+   /**
+    * Disabilito la connection del database (lavoro in locale senza db?)
+    */
+   if($commandData->getOptions()->getVal('no-database'))
+   {   
+      $kernel->registerCallback(\Application_Kernel::KERNEL_EVENT_BOOT,function(\ApplicationKernel $kernel){
+            DAO_DBManager::disableConnection();
+      });
+   }
+   
+   /**
+    * Inizializzo il kernel per la console
+    */
+   $kernel->initMeCLI($env,$debug)
+          ->setOutputBuffering(false); 
+   
+   $command = $kernel->getApplicationCommands();
+   
+   
+   if(!$commandData->getCommandName())
+   {
+      // CLI show info *****************************
+   
+      echo $command->getColoredString("Anweb framework console, premere 'q' per uscire dalla command line\n",$command::COLOR_LIGHT_GREEN);
+      echo PHP_EOL."Kernel environment: ".$command->getColoredString($kernel->getEnvironment(),$command::COLOR_GREEN);
+      echo PHP_EOL."Kernel debug:       ".($kernel->isDebugActive() ? $command->getColoredString("true",$command::COLOR_GREEN) : $command->getColoredString("false",$command::COLOR_RED));
+
+      // *******************************************
+
+      $exit  = false;
+
+      echo PHP_EOL;
+      
+      while(!$exit)
+      {
+         try
+         {
+            echo ">";
+            
+            if($command->bindStdin()->readUserInput())
+            {            
+               $commandData = $command->getParseCommand($command->getUserInput()); /*@var $params Application_ArrayObjectBag*/
+               
+               $commandResponse = $command->executeCommand($commandData->getCommandName(),$commandData->getParams(),$commandData->getOptions());
+               
+               echo strip_tags(html_entity_decode($commandResponse)).PHP_EOL;
+            }
+         }
+         catch(Exception $e)
+         {
+            if($e->getCode() == $command::COMMAND_CLI_EXIT_CODE)
+            {
+               $exit = true;
+            }
+            else
+            {
+               $command->printColoredString($e->getMessage(),$command::COLOR_RED).PHP_EOL;
+               echo PHP_EOL;
+            }
+         }
+      }
+
+
+      $command->printColoredString("Chiusura console in corso..",$command::COLOR_GREEN);
+
+      if($kernel->closeKernel(false))
+      {
+         $command->printColoredString("Console chiusa. Bye bye!",$command::COLOR_GREEN);
+      }
+      else
+      {
+         $command->printColoredString("Errore durante la chiusura della console",$command::COLOR_RED);
+      }
+   }
+   else
+   {  
+      $commandResponse = $command->executeCommand($commandData->getCommandName(), $commandData->getParams(), $commandData->getOptions());
+
+      echo strip_tags(html_entity_decode($commandResponse));
+   }
+}
+catch(\Exception $e)
+{
+   echo "\n  Si è verificato un errore: ".$e->getMessage().", codice errore: ".$e->getCode();
+   echo "\n  ".$e->getTraceAsString();
+   
+}
+
+echo PHP_EOL;
+exit(0);

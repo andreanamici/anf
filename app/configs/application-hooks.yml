@@ -1,0 +1,5 @@
+
+
+#postrouting:
+#    
+#    - { name: '@kernel.redirect({"url": "http://www.google.it"})' }

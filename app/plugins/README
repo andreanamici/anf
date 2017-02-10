@@ -1,0 +1,2 @@
+I plugins possono essere installati come i package, a differenza che questi sono globali e non sono indicati per processare le request, ma per fornire funzionalità
+generali al framework.

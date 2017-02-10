@@ -1,0 +1,9 @@
+
+
+# Rotta per la gestione del phpMyAdmin
+#
+_utility_phpmyadmin:
+    
+    path: /phpmyadmin
+    action: \webUtility\controllers\utilityController::phpMyAdmin
+

@@ -1,0 +1,39 @@
+required: This field is required
+greater_than: This field must be greater than% 2 $ s
+greater_than_or_equal: This field must be greater than or equal to% 2 $ s
+required_menu: The content must be associated with at least one menu
+unique_email: The e-mail address you entered is already associated with another user
+unique_url: The URL has already been used for other content
+permissions: This field is required
+matches: Passwords do not match
+numeric: This field can contain only numbers
+
+valid_name: This field can only contain letters and spaces apostrophes
+valid_password: The password can only contain letters and numbers and must be at least 8 characters
+VALID_EMAIL: The e-mail address you entered is incorrect
+valid_email_opendem: The e-mail address you entered is incorrect
+valid_youtube_url: The video sharing YouTube code is invalid
+valid_date: The date is not valid
+valid_date_adult: it must be at least 18 years
+valid_date_range: The date range is invalid
+valid_date_range_from: The date indicated must be earlier than the final
+valid_date_range_to: The specified date must be later than the initial
+valid_url: The inserted URL is invalid
+valid_real_url: L \ inserted URL is found to be an existing web page
+valid_vat_number: The partia VAT is invalid
+valid_tax_code: The tax code is invalid
+valid_tax_code_or_vat_number: This field must have a social security number or a tax parity
+valid_phone: Invalid phone
+valid_price: This amount is invalid
+valid_filename: "This field can not contain the following characters: /? *:;} {\%"
+
+date_greater_equal_than: The date given is prior or equal to% 2 $ s
+date_greater_than: The specified date must be after the% 2 $ 2
+date_less_equal_than: The date indicated must be earlier than or equal to% 2 $ s
+date_less_than: The specified date must be before the% 2 $ 2
+
+min_length: This field must CONTAINS least% 2 $ s characters
+max_length: This field can contain a maximum of% 2 $ s characters
+less_than: This value must be less than% 2 $ s
+less_than_or_equal: This value must be less than or equal to% 2 $ s
+exact_length: This value must contain exactly% 2 $ s characters

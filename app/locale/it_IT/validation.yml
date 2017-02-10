@@ -1,0 +1,41 @@
+
+
+required: Questo campo è obbligatorio 
+greater_than: Questo campo deve essere maggiore di %2$s
+greater_than_or_equal: Questo campo deve essere maggiore o uguale di %2$s
+required_menu: Il contenuto deve essere associato ad almeno un menù
+unique_email: L'indirizzo e-mail inserito è già associato ad un altro utente
+unique_url: L'URL è già stata utilizzata per un altro contenuto
+permissions: Questo campo è obbligatorio
+matches: Le password inserite non combaciano
+numeric: Questo campo può contenere solo numeri
+
+valid_name: Questo campo può contenere solo lettere spazi e apostrofi
+valid_password: La password può contenere solo lettere e numeri e deve essere lunga almeno 8 caratteri
+valid_email: L'indirizzo e-mail inserito non è corretto 		
+valid_email_opendem: L'indirizzo e-mail inserito non è corretto 
+valid_youtube_url: Il codice di condivisione video di YouTube non è valido
+valid_date: La data non è valida
+valid_date_adult: Si deve aver compiuto almeno 18 anni
+valid_date_range: L'intervallo di date non è valido
+valid_date_range_from: La data indicata deve essere precedente rispetto a quella finale
+valid_date_range_to: La data indicata deve essere successiva rispetto a quella iniziale
+valid_url: L'URL inserita non è valida
+valid_real_url: L'URL inserita non risulta essere una pagina web esistente
+valid_vat_number: La partia IVA non è valida
+valid_tax_code: Il codice fiscale non è valido
+valid_tax_code_or_vat_number: Questo campo deve contenere un codice fiscale o una parita iva
+valid_phone: Numero di telefono non valido
+valid_price: Questo importo non è valido
+valid_filename: "Questo campo non può contenere i seguenti caratteri: / ? *: ; { } \ %"
+valid_zip_code: Il CAP deve essere numerico di 5 numeri
+date_greater_equal_than: La data indicata deve essere successiva o uguale del %2$s
+date_greater_than: La data indicata deve essere successiva del %2$2
+date_less_equal_than: La data indicata deve essere precedente o uguale del %2$s
+date_less_than: La data indicata deve essere precedente del %2$2
+
+min_length: Questo campo deve contene almeno %2$s caratteri
+max_length: Questo campo può contenere al massimo %2$s caratteri
+less_than: Questo valore deve essere minore di %2$s
+less_than_or_equal:  Questo valore deve essere minore o uguale di %2$s
+exact_length: Questo valore deve contenere esattamente %2$s caratteri

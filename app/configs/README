@@ -1,0 +1,4 @@
+Questa directory contiene le configurazioni.
+
+Ogni sottodirectory contiene i file di configurazione del relativo environment del Kernel.
+usare il nome della cartella "all" per sfruttare quelle configurazioni nel caso in cui l'environment indicato dal kernel non sia presente in questa directory

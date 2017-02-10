@@ -1,0 +1,14 @@
+body{ background-color: black; }
+a{ color: steelblue;text-decoration: none; }
+iframe{ height: 80px;width: 100%;background-color: rgba(139, 197, 143, 0.86)}
+.iframe-title{ color: black;font-weight: lighter;font-size: 16px;display: inline;margin-left: 10px;float: left;}
+.iframe-buttons{ background-color: #DEDEDE;width: 100%;height: 25px;}
+.iframe-buttons div.timeout{ font-size: 13px;font-weight: bolder;float:left;margin-left: 10px; margin-right: 15px;}
+.iframe-buttons ul.window{ float: right;list-style: none;margin: 0;}
+.iframe-buttons ul.window li{ float: left;margin-left: 5px;margin-right: 5px; font-size: 16px;font-weight: bolder}
+.iframe-buttons ul.command { float: left;list-style: none;margin: 0;}
+.iframe-buttons ul.command .disabled{ cursor:not-allowed;opacity:0.5 }
+.iframe-buttons ul.command li{ float: left;list-style: none;margin-left: 10px;}
+.iframe-container{ margin-top: 12px;}
+.iframe-container.fullscreen{ position: absolute;top: 0;left: 0; height: 80%; width: 100%;z-index:1000; }
+.iframe-container.fullscreen iframe{ height: 900px; }

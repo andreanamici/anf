@@ -1,0 +1,128 @@
+
+ 
+# Alias del service per gestire il database
+#
+db:
+   service: @database
+       
+# Ottiene la connection di default
+#
+connection_default:
+   service: @db.getConnection(["default"])
+    
+# Questo service, effettua una query e restituire il resultSet in base al fetchMode indicato
+#
+query_fetch_all:
+    
+    call:
+        
+        params: 
+            query
+            fetchMode
+            class
+
+        with:
+           - { service: @db.exeQuery, params: query }
+           - { service: @db.fetchArrayResultSet, params: [fetchMode,class] , result: result }
+
+        return: result
+
+# Costruisce una response da restituire dal controller
+#
+response:
+    call:
+        
+        params: 
+            action
+            method
+            content
+            headers
+            
+        defaults:
+            action: 200
+            method: null
+            headers:
+                Content-type: 'text/html'
+                
+        with:
+            
+           $1:
+                service: @controller.doActionPrepare
+                params: 
+                    action
+                    method
+           $2: 
+                service: @controller.doActionProcess 
+                result: controllerResponse
+#                if: "@controllerResponse.getContentType == 'text/html'"
+#                then:  $4
+#                else:  $3                
+#           $3: 
+#              service: @controllerResponse.replaceHeader(["Content-type","text/html"])
+#                
+#           $4:  
+#              service: @controllerResponse.replaceHeader(["Content-type","text/css"])
+              
+#           $5:
+#              service: @controllerResponse.setContent
+#              params: content
+
+        return: controllerResponse
+
+# Response 404
+#
+response_404:
+        
+        call:
+            
+            params:
+                action
+            
+            defaults:
+                action: 404
+            
+            with:
+                $1: 
+                    service: @response
+                    params: action
+                    result: controllerResponse
+                    
+            return: controllerResponse
+
+# Bad Request
+#
+response_400:
+        
+        call:
+            
+            params:
+                action
+            
+            defaults:
+                action: 400
+            
+            with:
+                $1: 
+                    service: @response
+                    params: action
+                    result: controllerResponse
+                    
+            return: controllerResponse
+            
+response_403:
+        
+        call:
+            
+            params:
+                action
+            
+            defaults:
+                action: 403
+            
+            with:
+                $1: 
+                    service: @response
+                    params: action
+                    result: controllerResponse
+                    
+            return: controllerResponse

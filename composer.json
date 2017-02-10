@@ -1,0 +1,27 @@
+{
+    "name": "AnwebFramework - version 1.0",
+    "license": "MIT",
+    "type": "project",
+    "description": "it works like a charm!",
+    "autoload": {
+        "psr-0": { 
+            "": ["lib/plugins","lib/application"]
+        }
+    },
+    "require": {
+        "php": ">=5.4",
+        "symfony/validator": "~2.1",
+        "symfony/yaml": "~2.1",
+        "swiftmailer/swiftmailer": "^5.4",
+        "mobiledetect/mobiledetectlib": "^2.8"
+    },
+    "scripts": {
+        "post-root-package-install": [],
+        "post-install-cmd": [],
+        "post-update-cmd": []
+    },
+    "config": {
+        "bin-dir": "vendor/bin",
+        "vendor-dir": "vendor"
+    }
+}

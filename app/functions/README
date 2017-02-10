@@ -1,0 +1,1 @@
+In questa directory vanno dichiarate le function di utility del framework. Ogni file verrà automaticamente incluso al boot del kernel.

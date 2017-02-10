@@ -1,0 +1,3 @@
+In questa cartella vanno installati gli hooks globali, autoregistranti.
+Questi Hooks verranno registrati  all'Application_Hooks automaticamente in base alla loro configurazione.
+

@@ -1,0 +1,6 @@
+Questa cartella contiene i controllers, che devono elaborare la request sfruttando direttamente una logica a controller pura, bypassando gli ActionObject.
+Ogni controller è comunuqe gestito dall'engine attraverso un ActionObject Callable.
+
+[Flusso utilizzando actionObject]     ActionController -> ActionObject() -> response -> ControllerResponse -> kernel
+
+[Flusso estendendo controller nativo] ActionController -> ActionObjectCallable() ->  Controller -> ControllerResponse -> kernel

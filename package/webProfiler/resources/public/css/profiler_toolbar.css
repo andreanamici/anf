@@ -1,0 +1,67 @@
+
+#profiler-toolbar
+{
+    font-size: 12px;
+    line-height: 15px;
+}
+
+#profiler-toolbar
+{
+    width: 100%;
+    height: 200px;
+    background-color: #DEDEDE;
+    bottom: 0;
+    z-index: 99999999999;
+    padding: 20px 0px 10px 15px;
+    position: fixed;
+    bottom: 0;
+    overflow-y:scroll;
+}
+
+#profiler-toolbar h2
+{
+    line-height: 2px;
+    font-size: 16px;
+    text-align: center;
+    padding: 3px;
+    margin: 0px 0px 10px 0px;
+}
+
+
+.profiler-toolbar-content ul
+{
+    text-align: left;
+}
+
+#profiler-toolbar.hidden 
+{
+    display: block !important;
+    width: auto;
+    margin-right: -143px;
+    height: 1%;
+    overflow-y: hidden;
+    background-color: #f0582f;
+    color: white;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.profiler-toolbar-title
+{
+   font-size: 12px;
+   font-weight: bold;   
+}
+
+.profiler-toolbar-element
+{
+   float: left;
+   margin: 0px 5px 5px 0px;
+   border: 1px solid #B1B1B1;
+   border-radius: 6px;
+   padding: 0px 32px 0px 10px;
+   background-color: #E1F8F3;
+   height: 56px;
+   text-align: center;
+   overflow-y: scroll;
+   height: 72px;
+}

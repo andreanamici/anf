@@ -1,0 +1,5 @@
+In questa cartella vanno installati gli hooks globali, autoregistranti, non sono soggetti a file di configurazione php/yml
+
+Questi Hooks verranno registrati  all'Application_Hooks automaticamente in base alla loro configurazione.
+In genere qui dentro sono presenti gli hooks del framework.
+

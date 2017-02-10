@@ -1,0 +1,68 @@
+
+anframework - Roadmap v2.0
+
+[Routing]  [OK] Sottodirectory PATH INFO 
+[Routing]  [PE] Parametri di default nel routing per gli slug, devono rendere opzionale lo "/" davanti, esempio: /test/{0,1}{slug}, lo "/" deve essere automaticamente come {0,1} quando {slug} è presente tra i defaults
+[Autoload] [OK] Class file extension array, possibilità di specificare all'interno di un classPathInfo più file extension,es: .act.php, .php
+[Locales]  [OK] Cartella "locale" in app/
+[System]   [PE] Spostare cartella "var/" in "app/", rinominata in "cache", e la cartella "cache" interna rinominarla in "system"
+                togliere la cartella pictures, media etc dalla cartella var e mettere in una cartella "/web" nella root del framework
+[System]   [OK] Creare cartella "action" sotto "app/" per poter invocare gli actionObject dalla root
+[Routing]  [OK] parametro tplmode rinominare in "package"
+[System]   [OK] Possibilità di estendere il controller dell'applicazione, "bypassando" gli actionObject, che in realtà wrappano la callable (controller) richiamata, da un ActionObjectCallable
+[Configs]  [OK] Mettere la cartella dei configs in "app/" e rendere "estendibile" con quella in "lib/"
+[System]   [OK] Togliere tutti i template mode e sostituire con i "Packages"
+[Configs]  [PE] Togliere le costanti e creare le configurazioni tramite file php semplice, con HOOKS per la gestione apposita "HOOKS_CONFIGS"
+[System]   [OK] Cartella "user/" rinominare in "packages/"
+[System]   [PE] Possibilità di poter creare/clonare il kernel e di poter ricaricare le configurazioni in differenti environment all'interno della stessa "chiamata" :')
+[System]   [OK] Rimuovere CI e "wrappare" form validation con libreria nativa in anframework
+[System]   [PE] In "prod", (quando il debug è off) cachare tutti gli hooks (path)
+[System]   [OK] controller mainAction = false, fix eventuali hooks registrati lanciati correttamente
+[Hooks]    [OK] Lanciare eccezione qualora i dati restituiti dagli hooks non siano compatibili con quelli richiesti
+[System]   [OK] Rimuovere suffissi alle classi, "cmd.php", "class.php" etc, so vecchio stampo andrè!
+[System]   [OK] Sostituire "subaction" con "method" e creare una classe (trait?) che decodifica una stringa in una callable (non metterla dichiarata nel routing, magari come service..)
+[System]   [OK] Rimuovere IndexController, obsoleto, inutile!
+[System]   [OK] Rimuovere il viewController,facendolo diventare un servizio di templating (alla symfony style !!)
+[System]   [OK] Il templating deve prevedere un package NULL per fare il render dei template nella cartella di default dell'applicazione
+[System]   [OK] Rimuovere RequestController, unificare tutto nell'actionController
+[System]   [OK] Passare i parametri ottenuti dal routing all'actionObject come parametri del metodo, iniettando i service dinamicamente tramite il nome della variabile del metodo
+[Email]    [PE] Creare un helper per l'invio di posta spostandolo dagli EntityManager no?
+[System]   [OK] Prevedere le configurazioni estendibili nella cartella app/conf con formato yml e php a scelta nel kernel extended
+[System]   [OK] Sistemare il phpmyadmin, integrandolo con il framework (creare file a parte documentato per far funzionare le dbconnect a parte)
+[System]   [OK] Togliere la cartella YWRtaW4, includendo il phpmyadmin come package, stessa cosa per il mysqlbackup, (package: webPhpmyadmin)
+[System]   [OK] Rinominare tutti i "package" anzichè in web* in *Package (Symfony style.. o yeah!)
+[System]   [OK] Spostare le Entity e gli EntityManager nella cartella app/lib/
+[System]   [OK] Cambiare il prefisso alle classi Basic e metterle altrove. Application_SessionManager: Application_SessionManager, Basic_cookie uguale etc..
+[System]   [PE] prevedere UNIT-TEST e un front-controller ad hoc(? vericare come è giusto fare, iniziare ad usare gli unit test)
+[System]   [PE] prevedere configurazioni di base in app/configs, per un framework out-of-the-box, rapido da usare, che sfruttano le configurazioni cachate
+_____________________________________________________
+
+cartella lib <--------- sarebbe cosa buona e giusta spostare questa cartella in vendor, creando il progetto su giuthub e farlo puntare con il composer
+
+[system folders]
+
+app/
+  cache/
+  commands/
+  action/
+  config/
+  hooks/
+  lib/ (Estenzione delle library native)
+    application/
+    class/
+    entity/
+    entitiesManager/
+  plugins/
+  resources/ (Viste generiche)
+    views/
+    public/
+      css/
+      js/
+  locale/
+lib [RINOMINARE IN anframework, sposata in vendor]
+packages
+web/ (cartella in cui storare immagini etc.. non in var/, cosi da rimuovere le rewrite rule)
+.htaccess
+app_dev.php
+app_test.php
+app.php

@@ -1,0 +1,1 @@
+<iframe src='<?=$phpmyadm_iframe_src;?>' width='100%' height='100%' allowfullscreen='true' frameborder='false'></iframe>

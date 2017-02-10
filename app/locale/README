@@ -1,0 +1,3 @@
+Questa directory contiene le cartelle (locale) nelle quali vengono creati i cataloghi di traduzione. Ogni catalogo avrà il nome (dominio) e l'estenzione nel formato
+che si preferisce, xml, php, yml. Se l'estenzione indicata non è una tra quelle supportate nativamente dal framework verrò lanciato l'hook
+"locale.load"
