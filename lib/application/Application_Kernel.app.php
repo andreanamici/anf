@@ -1188,7 +1188,7 @@ class Application_Kernel
    {
        if($this->isServerApiCLI() && !$this->isCliEnable())
        {
-           return $this->throwNewException(983459834598345, 'Non è possibile proseguire con l\'esecuzione dello stack di attivazione del kernel. La proprietà del kernel $_is_api_cli_enabled risulta uguale a FALSE');
+           return $this->throwNewException(983459834598345, 'Esecuzione terminata. Per utilizzare anf da CLI, utilizzare il file app/console');
        }
        
        $this->resolveRequest()
