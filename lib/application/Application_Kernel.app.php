@@ -199,6 +199,11 @@ class Application_Kernel
     */
    protected $_exception = false; 
    
+   /**
+    * Indica se la Cli è abilitata, default false
+    * @var Boolean
+    */
+   protected $_is_cli_enabled = false;
    
    /**
     * Restituisce il nome dell' ActionController  creato in base alla configurazione della rotta che indica la tipologia di controller da utilizzare
@@ -622,6 +627,31 @@ class Application_Kernel
       return $this->_environment;
    }
    
+   
+   /**
+    * Configura se la cli è abilitata o meno
+    * 
+    * @param Boolean $isCliEnable  status
+    * 
+    * @return \Application_Kernel
+    */
+   public function setCliEnable($isCliEnable)
+   {
+       $this->_is_cli_enabled = $isCliEnable;
+       return $this;
+   }
+   
+   /**
+    * Indica se la console è abilitata, default false
+    * 
+    * @return Boolean
+    */
+   public function isCliEnable()
+   {
+       return $this->_is_cli_enabled;
+   }
+   
+   
    /**
     * Restituisce un array iterator di packages registrati
     * Ogni elemento dell'iteratore è un Abstract_Package
@@ -728,7 +758,7 @@ class Application_Kernel
               ->setOutputBuffering(true)        //Abilito l'outputBuffering
                  
               ->onKernelLoaded();               //Conclude il caricamento del Kernel
-
+         
          return $this;
    }   
    
@@ -742,6 +772,8 @@ class Application_Kernel
     */
    public function initMeCLI($environment = self::DEFAULT_ENVIRONMENT, $debug = self::DEFAULT_DEBUG)
    {     
+         $this->setCliEnable(false);
+         
          $this->onKernelInit($environment,$debug)
        
               ->onKernelStart()              //Il Kernel è partito
@@ -1154,6 +1186,11 @@ class Application_Kernel
     */
    public function run($close = true)
    {
+       if($this->isServerApiCLI() && !$this->isCliEnable())
+       {
+           return $this->throwNewException(983459834598345, 'Non è possibile proseguire con l\'esecuzione dello stack di attivazione del kernel. La proprietà del kernel $_is_api_cli_enabled risulta uguale a FALSE');
+       }
+       
        $this->resolveRequest()
             ->process();
        
