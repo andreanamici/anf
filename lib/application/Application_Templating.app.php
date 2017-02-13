@@ -116,7 +116,7 @@ class Application_Templating implements Interface_ApplicationTemplating
      * Nome della cartella in cui sono i file statici e le cartelle js,css,flash,video etc..
      * @var String 
      */
-    protected  $_html_directory                 = "resources/html"; 
+    protected  $_html_directory                 = "resources".DIRECTORY_SEPARATOR."html"; 
     
     /**
      * Contiene la root relativa HTTP del sito , default ""
@@ -245,7 +245,7 @@ class Application_Templating implements Interface_ApplicationTemplating
     {
        if(strlen($tplDir) > 0 )
        {
-          $this->_tpl_subfolder = $tplDir."/";
+          $this->_tpl_subfolder = $tplDir.DIRECTORY_SEPARATOR;
        }
        
        return $this;
@@ -476,13 +476,13 @@ class Application_Templating implements Interface_ApplicationTemplating
              */
             if($this->_package)
             {
-                $cnf_tpl_dir           = $this->_root_path."/".$this->_package_directory."/".$this->_package."/".$this->_tpl_path."/".$this->_tpl_subfolder;
-                $cnf_tpl_dir_compiled  = $this->_root_path."/".$this->_tpl_cache_dir."/".$cnf_tpl_engine_name."/php/".$this->_package."/";  //Cartella template da elaborare
+                $cnf_tpl_dir           = $this->_root_path.DIRECTORY_SEPARATOR.$this->_package_directory.DIRECTORY_SEPARATOR.$this->_package.DIRECTORY_SEPARATOR.$this->_tpl_path.DIRECTORY_SEPARATOR.$this->_tpl_subfolder;
+                $cnf_tpl_dir_compiled  = $this->_root_path.DIRECTORY_SEPARATOR.$this->_tpl_cache_dir.DIRECTORY_SEPARATOR.$cnf_tpl_engine_name.DIRECTORY_SEPARATOR."php".DIRECTORY_SEPARATOR.$this->_package.DIRECTORY_SEPARATOR;  //Cartella template da elaborare
             }
             else
             {
-                $cnf_tpl_dir           = $this->_application_views_path."/".$this->_tpl_subfolder;
-                $cnf_tpl_dir_compiled  = $this->_root_path."/".$this->_tpl_cache_dir."/".$cnf_tpl_engine_name."/php/";  //Cartella template da elaborare
+                $cnf_tpl_dir           = $this->_application_views_path.DIRECTORY_SEPARATOR.$this->_tpl_subfolder;
+                $cnf_tpl_dir_compiled  = $this->_root_path.DIRECTORY_SEPARATOR.$this->_tpl_cache_dir.DIRECTORY_SEPARATOR.$cnf_tpl_engine_name.DIRECTORY_SEPARATOR."php".DIRECTORY_SEPARATOR;  //Cartella template da elaborare
             }
             
             /**
@@ -499,23 +499,23 @@ class Application_Templating implements Interface_ApplicationTemplating
             //Caching Template File
             $cnf_use_cache         = $this->_tpl_cache_enable;
             $cnf_cache_time        = $this->_tpl_cache_time_expire;
-            $cnf_cache_dir         = $this->_root_path."/".$this->_tpl_cache_dir."/".$cnf_tpl_engine_name."/html/".$this->_package."/";  //Cartella template elaborati
+            $cnf_cache_dir         = $this->_root_path.DIRECTORY_SEPARATOR.$this->_tpl_cache_dir.DIRECTORY_SEPARATOR.$cnf_tpl_engine_name.DIRECTORY_SEPARATOR."html".DIRECTORY_SEPARATOR.$this->_package.DIRECTORY_SEPARATOR;  //Cartella template elaborati
 
             $cnf_base_url          = $this->_http_root;
-            $cnf_base_url_js       = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
-            $cnf_base_url_css      = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
-            $cnf_base_url_media    = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
-            $cnf_base_url_images   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
-            $cnf_base_url_photos   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
+            $cnf_base_url_js       = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
+            $cnf_base_url_css      = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
+            $cnf_base_url_media    = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
+            $cnf_base_url_images   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
+            $cnf_base_url_photos   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
                         
             if($this->_package != $this->_package_default)
             {
-               $cnf_base_url          .= $this->_package ."/";
-               $cnf_base_url_js       .= $this->_package ."/";
-               $cnf_base_url_css      .= $this->_package ."/";
-               $cnf_base_url_media    .= $this->_package ."/";
-               $cnf_base_url_images   .= $this->_package ."/";
-               $cnf_base_url_photos   .= $this->_package . "/";
+               $cnf_base_url          .= $this->_package .DIRECTORY_SEPARATOR;
+               $cnf_base_url_js       .= $this->_package .DIRECTORY_SEPARATOR;
+               $cnf_base_url_css      .= $this->_package .DIRECTORY_SEPARATOR;
+               $cnf_base_url_media    .= $this->_package .DIRECTORY_SEPARATOR;
+               $cnf_base_url_images   .= $this->_package .DIRECTORY_SEPARATOR;
+               $cnf_base_url_photos   .= $this->_package . DIRECTORY_SEPARATOR;
             }
             
             /**
@@ -881,7 +881,7 @@ class Application_Templating implements Interface_ApplicationTemplating
             return $package->getResourceUrl($absolute) . DIRECTORY_SEPARATOR . $resource;
         }
         
-        return ($absolute ? $httpRequest->getBaseUrl() : $httpRequest->getPath()). 'app/' .APPLICATION_TEMPLATING_ASSETS_PATH. DIRECTORY_SEPARATOR .$resource;
+        return ($absolute ? $httpRequest->getBaseUrl() : $httpRequest->getPath()). 'app'.DIRECTORY_SEPARATOR .APPLICATION_TEMPLATING_ASSETS_PATH. DIRECTORY_SEPARATOR .$resource;
     }
     
     /**
@@ -963,7 +963,7 @@ class Application_Templating implements Interface_ApplicationTemplating
         if(preg_match('/@([A-z0-9\_\-]+)\//',$tplname,$matches))
         {
             $this->setPackage($matches[1]);
-            $tplname     = str_replace('@'.$matches[1].'/','',$tplname);
+            $tplname     = str_replace('@'.$matches[1].DIRECTORY_SEPARATOR,'',$tplname);
         }
         
         if($fullPath)
