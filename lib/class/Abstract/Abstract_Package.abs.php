@@ -105,8 +105,8 @@ abstract class Abstract_Package implements Interface_Package
     */
    public function onLoad() 
    {
-       $targetLink = $this->getAbsolutePath().'/resources/public';
-       $link       = ROOT_PATH.'/web/assets/'.$this->getName();
+       $targetLink = implode(DIRECTORY_SEPARATOR,array($this->getAbsolutePath(),'resources','public'));
+       $link       = implode(DIRECTORY_SEPARATOR,array(ROOT_PATH,'web','assets',$this->getName()));
        
        if(!is_dir($link) && is_dir($targetLink))
        {
