@@ -105,11 +105,15 @@ abstract class Abstract_Package implements Interface_Package
     */
    public function onLoad() 
    {
-       $targetLink = $this->getAbsolutePath().'/resources/public';
-       $link       = ROOT_PATH.'/web/assets/'.$this->getName();
+       $targetLink = implode(DIRECTORY_SEPARATOR,array($this->getAbsolutePath(),'resources','public'));
+       $link       = implode(DIRECTORY_SEPARATOR,array(ROOT_PATH,'web','assets',$this->getName()));
        
        if(!is_dir($link) && is_dir($targetLink))
        {
+           if (!file_exists(dirname($link))&&!mkdir(dirname($link),0777,true))
+           {
+               return self::throwNewException(96811598461, "impossibile creare la directory " . dirname($link)." per ospitare il symlink");
+           }
            symlink($targetLink, $link);
        }
        
