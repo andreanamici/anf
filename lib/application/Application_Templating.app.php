@@ -116,7 +116,7 @@ class Application_Templating implements Interface_ApplicationTemplating
      * Nome della cartella in cui sono i file statici e le cartelle js,css,flash,video etc..
      * @var String 
      */
-    protected  $_html_directory                 = "resources".DIRECTORY_SEPARATOR."html"; 
+    protected  $_html_directory                 = null; 
     
     /**
      * Contiene la root relativa HTTP del sito , default ""
@@ -452,6 +452,7 @@ class Application_Templating implements Interface_ApplicationTemplating
         $this->_application_resources_path = APPLICATION_RESOURCES_ASSETS_DIRECTORY_PATH;
                 
         $this->_http_root                  = $this->getService('httprequest')->getPath();
+        $this->_html_directory             = "resources".DIRECTORY_SEPARATOR."html";
     }
 
     /**
