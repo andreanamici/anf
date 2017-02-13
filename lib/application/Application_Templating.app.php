@@ -502,20 +502,20 @@ class Application_Templating implements Interface_ApplicationTemplating
             $cnf_cache_dir         = $this->_root_path.DIRECTORY_SEPARATOR.$this->_tpl_cache_dir.DIRECTORY_SEPARATOR.$cnf_tpl_engine_name.DIRECTORY_SEPARATOR."html".DIRECTORY_SEPARATOR.$this->_package.DIRECTORY_SEPARATOR;  //Cartella template elaborati
 
             $cnf_base_url          = $this->_http_root;
-            $cnf_base_url_js       = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
-            $cnf_base_url_css      = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
-            $cnf_base_url_media    = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
-            $cnf_base_url_images   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
-            $cnf_base_url_photos   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). DIRECTORY_SEPARATOR;
+            $cnf_base_url_js       = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
+            $cnf_base_url_css      = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
+            $cnf_base_url_media    = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
+            $cnf_base_url_images   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
+            $cnf_base_url_photos   = $this->_http_root  . $this->getConfigValue('APPLICATION_RESOURCES_ASSETS_RELATIVE_URL'). '/';
                         
             if($this->_package != $this->_package_default)
             {
-               $cnf_base_url          .= $this->_package .DIRECTORY_SEPARATOR;
-               $cnf_base_url_js       .= $this->_package .DIRECTORY_SEPARATOR;
-               $cnf_base_url_css      .= $this->_package .DIRECTORY_SEPARATOR;
-               $cnf_base_url_media    .= $this->_package .DIRECTORY_SEPARATOR;
-               $cnf_base_url_images   .= $this->_package .DIRECTORY_SEPARATOR;
-               $cnf_base_url_photos   .= $this->_package . DIRECTORY_SEPARATOR;
+               $cnf_base_url          .= $this->_package .'/';
+               $cnf_base_url_js       .= $this->_package .'/';
+               $cnf_base_url_css      .= $this->_package .'/';
+               $cnf_base_url_media    .= $this->_package .'/';
+               $cnf_base_url_images   .= $this->_package .'/';
+               $cnf_base_url_photos   .= $this->_package . '/';
             }
             
             /**
@@ -769,7 +769,7 @@ class Application_Templating implements Interface_ApplicationTemplating
        {
           return self::throwNewException(92394923483465757,"Nessun Template da Caricare!");
        }
-       
+       array_walk($this->_tpl_to_load, function(&$value){$value=realpath($value);});
        //Controllo esistenza Template!
        foreach($this->_tpl_to_load as $template)
        {
@@ -791,6 +791,7 @@ class Application_Templating implements Interface_ApplicationTemplating
           case self::DEFAULT_TEMPLATE_ENGINE_PHP:   $templateOutput = $this->_renderPHP();              break;
           default:                                  $templateOutput = $this->_renderTemplateEngine();   break;
        }
+       
        
        $this->clearTemplateList();
        
