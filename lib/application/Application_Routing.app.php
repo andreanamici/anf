@@ -30,7 +30,7 @@ class Application_Routing implements Interface_ApplicationRouting
                               '(:qsa)'                       => '\?(?<qsa>.*)',                        //QueryStringALL
 
                               /** Parameter Validators **/
-
+                              '(:[slug])'                    => '([\/])',
                               '(:[string])'                  => '([A-z0-9\-\_]+)',
                               '(:[string-lower])'            => '([A-z0-9\-\_]+)',
                               '(:[string-upper])'            => '([A-z0-9\-\_]+)',
