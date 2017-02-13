@@ -11,17 +11,17 @@
  /**
   * Path a partire dal package attuale nella quale ricercare le risorse assets
   */
- define("APPLICATION_TEMPLATING_ASSETS_PATH","resources/public");
+ define("APPLICATION_TEMPLATING_ASSETS_PATH","resources".DIRECTORY_SEPARATOR."public");
  
  /**
   * Path a partire dal package attuale nella quale ricercare i template
   */
- define("APPLICATION_TEMPLATING_TPL_PATH","resources/views");
+ define("APPLICATION_TEMPLATING_TPL_PATH","resources".DIRECTORY_SEPARATOR."views");
  
  /**
   * Directory template errori, relativa al package
   */
- define("APPLICATION_TEMPLATING_TPL_DIR_ERROR","resources/views/errors");
+ define("APPLICATION_TEMPLATING_TPL_DIR_ERROR","resources".DIRECTORY_SEPARATOR."views".DIRECTORY_SEPARATOR."errors");
  
  /**
   * Nome file php per gestire gli errori di default, qualora l'errore specifico non sia disponibile
@@ -49,7 +49,7 @@
  /**
   * Path directory cache template dalla rootsite del progetto
   */
- define("APPLICATION_TEMPLATING_TPL_CACHE_DIR","var/cache/views");
+ define("APPLICATION_TEMPLATING_TPL_CACHE_DIR","var".DIRECTORY_SEPARATOR."cache".DIRECTORY_SEPARATOR."views");
  
  
  
