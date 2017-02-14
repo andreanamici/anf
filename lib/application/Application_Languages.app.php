@@ -485,16 +485,28 @@ class Application_Languages implements Interface_ApplicationLanguages
     /**
      * Traduce una stringa nella lingua selezionata del portale
      * 
-     * @param String   $code                 Chiave parola da tradurre
-     * @param String   $domain               [OPZIONALE] Dominio delle stringhe, se NULL applica quello di default self::LANGUAGES_LOCALE_DEFAULT_DOMAIN
-     * @param Array    $replacement          [OPZIONALE] Parametri per effettuare le sostituizioni nella stringa, verrà effettuato sia la formattazione che la sostituzione di stringhe, es: ["string1","string2","STRINGA"=>"valore"]
-     * @param Boolean  $returnFallbackValue  [OPZIONALE] Indica se restiure il valore di fallback  qualora non fosse presente nel catalogo della lingua in uso, default TRUE
+     * Questo metodo accetta l'inversine dei parametri $domain e $replacement
+     * 
+     * @param String   $code                    Chiave parola da tradurre
+     * @param Mixed    $domain / $replacement   [OPZIONALE] Dominio delle stringhe, se NULL applica quello di default self::LANGUAGES_LOCALE_DEFAULT_DOMAIN
+     * @param Mixed    $replacement / $domain   [OPZIONALE] Parametri per effettuare le sostituizioni nella stringa, verrà effettuato sia la formattazione che la sostituzione di stringhe, es: ["string1","string2","STRINGA"=>"valore"]
+     * @param Boolean  $returnFallbackValue     [OPZIONALE] Indica se restiure il valore di fallback  qualora non fosse presente nel catalogo della lingua in uso, default TRUE
      * 
      * @return String
      */
-    public function translate($code,$domain = null,array $replacement = array(),$returnFallbackValue = false)
+    public function translate($code,$domain = null,$replacement = array(),$returnFallbackValue = false)
     {   
-        
+        if(is_array($domain))
+        {
+            $replacement = $domain;
+            $domain      = null;
+        }
+
+        if(is_string($replacement)) 
+        {
+            $domain = $replacement;
+        }
+
         $translateParameters = Array(
             "code"                => $code,
             "domain"              => $domain,

@@ -8,78 +8,67 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
     use Trait_ApplicationKernel,
                 
         Trait_ObjectUtilities;
-    
+
     /**
      * Nome della chiave dell'elemento della sessione che contiene i dati 'flash' temporanei
      * @var String
      */
-    const FLASH_DATA_BAG_NAME     = '_flashdata';
-     
-    /**
-     * Indica i messaggi normali
-     * @var String
-     */
-    const FLASH_MESSAGES_MESSAGE  = 'message';
-    
-    /**
-     * Indica i messaggi di warning
-     * @var String
-     */
-    const FLASH_MESSAGES_WARNING  = 'message.warning';
-   
-    /**
-     * Indica i messaggi di errore
-     * @var String
-     */
-    const FLASH_MESSAGES_ERROR    = 'message.error';
-    
-    /**
-     * Nome del campo che indica se i flash messages sono abilitati
-     * 
-     * @var String
-     */
-    const FLASH_MESSAGES_DISABLE_FLAG_NAME  = 'message.stop';
+    protected $_flash_data_bag_name     = '_flashdata';
     
     /**
      * Session Handler nativo, dal php.ini
      * @var String
      */
-    const SESSION_HANDLER_NATIVE            = 'files';
+    protected $_session_handler_native_name             = SESSION_SAVE_HANDLER;
     
-    protected static $_session_name                    = SESSION_NAME;
-    protected static $_session_cookie_path             = SESSION_COOKIE_PATH;
-    protected static $_session_cookie_domain           = SESSION_COOKIE_DOMAIN;
-    protected static $_session_use_cookies             = SESSION_USE_COOKIES;
-    protected static $_session_use_only_cookies        = SESSION_USE_ONLY_COOKIES;
-    protected static $_session_cookie_secure           = SESSION_COOKIE_SECURE;
-    protected static $_session_cookie_lifetime         = SESSION_COOKIE_LIFETIME;
-    protected static $_session_cookie_httponly         = SESSION_COOKIE_HTTPONLY;
-    protected static $_session_gc_maxlifetime          = SESSION_GC_MAXLIFETIME;
-    protected static $_session_gc_probability          = SESSION_GC_PROBABILITY;
-    protected static $_session_gc_division             = SESSION_GC_DIVISION;
-    protected static $_session_save_path               = SESSION_SAVE_PATH;
-    protected static $_session_save_handler            = SESSION_SAVE_HANDLER;
-    protected static $_session_cache_expire            = SESSION_CACHE_EXPIRE;  
-    protected static $_session_autostart               = SESSION_AUTOSTART;
-    protected static $_session_upload_progress_enabled = SESSION_UPLOAD_PROGRESS_ENABLED;
-    protected static $_session_upload_progress_freq    = SESSION_UPLOAD_PROGRESS_FREQ;
-    protected static $_session_upload_progress_minfreq = SESSION_UPLOAD_PROGRESS_MIN_FREQ;
-    protected static $_session_upload_progress_name    = SESSION_UPLOAD_PROGRESS_NAME;
-    protected static $_session_upload_progress_prefix  = SESSION_UPLOAD_PROGRESS_PREFIX;
-    protected static $_session_upload_progress_cleanup = SESSION_UPLOAD_PROGRESS_CLEANUP;
+    protected $_session_name                    = SESSION_NAME;
+    protected $_session_cookie_path             = SESSION_COOKIE_PATH;
+    protected $_session_cookie_domain           = SESSION_COOKIE_DOMAIN;
+    protected $_session_use_cookies             = SESSION_USE_COOKIES;
+    protected $_session_use_only_cookies        = SESSION_USE_ONLY_COOKIES;
+    protected $_session_cookie_secure           = SESSION_COOKIE_SECURE;
+    protected $_session_cookie_lifetime         = SESSION_COOKIE_LIFETIME;
+    protected $_session_cookie_httponly         = SESSION_COOKIE_HTTPONLY;
+    protected $_session_gc_maxlifetime          = SESSION_GC_MAXLIFETIME;
+    protected $_session_gc_probability          = SESSION_GC_PROBABILITY;
+    protected $_session_gc_division             = SESSION_GC_DIVISION;
+    protected $_session_save_path               = SESSION_SAVE_PATH;
+    protected $_session_save_handler            = SESSION_SAVE_HANDLER;
+    protected $_session_cache_expire            = SESSION_CACHE_EXPIRE;  
+    protected $_session_autostart               = SESSION_AUTOSTART;
+    protected $_session_upload_progress_enabled = SESSION_UPLOAD_PROGRESS_ENABLED;
+    protected $_session_upload_progress_freq    = SESSION_UPLOAD_PROGRESS_FREQ;
+    protected $_session_upload_progress_minfreq = SESSION_UPLOAD_PROGRESS_MIN_FREQ;
+    protected $_session_upload_progress_name    = SESSION_UPLOAD_PROGRESS_NAME;
+    protected $_session_upload_progress_prefix  = SESSION_UPLOAD_PROGRESS_PREFIX;
+    protected $_session_upload_progress_cleanup = SESSION_UPLOAD_PROGRESS_CLEANUP;
     
     /**
      * Handler user-level sessione
+     * 
      * @var mixed
      */
     protected $_session_handler;
+    
+    /**
+     * Elenco tipologie flash messages
+     * 
+     * @var array
+     */
+    protected $_flash_messages_types = array(
+            'success' => 'message.success',
+            'warning' => 'message.warning',
+            'error'   => 'message.error',
+            'notify'  => 'message.notify'
+    );
+    
     
     /**
      * Restituisce il Nome della sessione utilizzata
      * @return String
      */
     public function getSessionName(){
-        return self::$_session_name;
+        return $this->_session_name;
     }
     
     /**
@@ -88,7 +77,7 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      */
     public function getSessionCacheExpire()
     {
-        return self::$_session_cache_expire;
+        return $this->_session_cache_expire;
     }
     
     /**
@@ -133,7 +122,7 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
          */
         $this->getApplicationKernel()->processHooks(\Interface_HooksType::HOOK_TYPE_SESSION_REGISTER,$this);
         
-        if(static::$_session_autostart)
+        if($this->_session_autostart)
         {
             $this->sessionStart();
         }
@@ -174,7 +163,6 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
         return $this->removeIndex($offse);
     }
     
-    
     public function exchangeArray(array $data)
     {
         $_SESSION = $data;
@@ -195,15 +183,16 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      */
     public function registerHandler(Interface_SessionHandler $sessionHandler,$restartSession = true)
     {
-        if($sessionHandler != self::SESSION_HANDLER_NATIVE)
-        {
+        if($sessionHandler)
+        {               
+            $this->_session_handler = $sessionHandler;
+            
             session_write_close();
-            session_set_save_handler($sessionHandler,true);
+            session_set_save_handler($this->_session_handler,true);
             register_shutdown_function('session_write_close');
             
             if($restartSession)
             {
-               $this->_session_handler = $sessionHandler;
                $this->sessionStart(true);
             }
         }
@@ -226,7 +215,7 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
            
            $this->openSession($restartSession);
            $this->addIndex("session_started",time());
-           $this->addIndex("timeout",time()+self::$_session_cache_expire);
+           $this->addIndex("timeout",time()+$this->_session_cache_expire);
            return true;
        }  
        
@@ -268,27 +257,27 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
     public function getDefaultSettings()
     {
         return array(
-            "session.name"                     => self::$_session_name,
-            "session.cookie_path"              => self::$_session_cookie_path,
-            "session.cookie_domain"            => self::$_session_cookie_domain,
-            "session.use_cookies"              => self::$_session_use_cookies,
-            "session.use_only_cookies"         => self::$_session_use_only_cookies,
-            "session.cookie_lifetime"          => self::$_session_cookie_lifetime,
-            "session.cookie_httponly"          => self::$_session_cookie_httponly,
-            "session.cookie_secure"            => self::$_session_cookie_secure,
-            "session.gc_maxlifetime"           => self::$_session_gc_maxlifetime,     
-            "session.gc_division"              => self::$_session_gc_division,
-            "session.gc_probability"           => self::$_session_gc_probability,
-            "session.save_handler"             => self::$_session_save_handler,
-            "session.save_path"                => self::$_session_save_path,
-            "session.cache_expire"             => time()+self::$_session_cache_expire,
-            "session.auto_start"               => self::$_session_autostart,
-            "session.upload_progress.enabled"  => self::$_session_upload_progress_enabled,
-            "session.upload_progress.prefix"   => self::$_session_upload_progress_prefix,
-            "session.upload_progress.freq"     => self::$_session_upload_progress_freq,
-            "session.upload_progress.min_freq" => self::$_session_upload_progress_minfreq,
-            "session.upload_progress.name"     => self::$_session_upload_progress_name,
-            "session.upload_progress.cleanup"  => self::$_session_upload_progress_cleanup,
+            "session.name"                     => $this->_session_name,
+            "session.cookie_path"              => $this->_session_cookie_path,
+            "session.cookie_domain"            => $this->_session_cookie_domain,
+            "session.use_cookies"              => $this->_session_use_cookies,
+            "session.use_only_cookies"         => $this->_session_use_only_cookies,
+            "session.cookie_lifetime"          => $this->_session_cookie_lifetime,
+            "session.cookie_httponly"          => $this->_session_cookie_httponly,
+            "session.cookie_secure"            => $this->_session_cookie_secure,
+            "session.gc_maxlifetime"           => $this->_session_gc_maxlifetime,     
+            "session.gc_division"              => $this->_session_gc_division,
+            "session.gc_probability"           => $this->_session_gc_probability,
+            "session.save_handler"             => $this->_session_save_handler,
+            "session.save_path"                => $this->_session_save_path,
+            "session.cache_expire"             => time()+$this->_session_cache_expire,
+            "session.auto_start"               => $this->_session_autostart,
+            "session.upload_progress.enabled"  => $this->_session_upload_progress_enabled,
+            "session.upload_progress.prefix"   => $this->_session_upload_progress_prefix,
+            "session.upload_progress.freq"     => $this->_session_upload_progress_freq,
+            "session.upload_progress.min_freq" => $this->_session_upload_progress_minfreq,
+            "session.upload_progress.name"     => $this->_session_upload_progress_name,
+            "session.upload_progress.cleanup"  => $this->_session_upload_progress_cleanup,
        );
     }
     
@@ -309,7 +298,7 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
         
         if(!$this->getApplicationKernel()->isServerApiCLI())
         {
-            if(self::$_session_autostart)
+            if($this->_session_autostart)
             {
                 @session_write_close();
             }
@@ -334,7 +323,7 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
            return true; 
         }
         
-        $flashData = $this->getIndex(self::FLASH_DATA_BAG_NAME,false);
+        $flashData = $this->getIndex($this->_flash_data_bag_name,false);
         
         @session_destroy();
         
@@ -342,7 +331,7 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
         
         if($startNewSession)
         {
-            if (static::$_session_use_cookies)
+            if ($this->_session_use_cookies)
             {
                 $params = session_get_cookie_params();
                 setcookie(session_name(), '', time() - 42000,
@@ -355,7 +344,7 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
             
             if($flashData)
             {
-               $this->addIndex(self::FLASH_DATA_BAG_NAME, $flashData);
+               $this->addIndex($this->_flash_data_bag_name, $flashData);
             }
         }
         
@@ -495,7 +484,6 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
     
     // FLASH DATA ********************************************************************************
     
-    
     /**
      * Aggiunge Dati Flash, utilizzabili finchè non verranno richiesti
      * 
@@ -504,14 +492,14 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return boolean
      */
-    public static function addFlashData($index,$value)
+    public function addFlashData($index,$value)
     {
        if(!isset($_SESSION))
        {
           return false;
        }
        
-       return $_SESSION[self::FLASH_DATA_BAG_NAME][$index] = $value;
+       return $_SESSION[$this->_flash_data_bag_name][$index] = $value;
     }
     
     
@@ -524,20 +512,20 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return boolean
      */
-    public static function getFlashData($index,$default = false,$autoclear = true)
+    public function getFlashData($index,$default = false,$autoclear = true)
     {
        if(!isset($_SESSION))
        {
           return $default;
        }
               
-       if(isset($_SESSION[self::FLASH_DATA_BAG_NAME][$index]))
+       if(isset($_SESSION[$this->_flash_data_bag_name][$index]))
        {
-          $value = $_SESSION[self::FLASH_DATA_BAG_NAME][$index];
+          $value = $_SESSION[$this->_flash_data_bag_name][$index];
           
           if($autoclear)
           {
-             unset($_SESSION[self::FLASH_DATA_BAG_NAME][$index]);
+             unset($_SESSION[$this->_flash_data_bag_name][$index]);
           }
        }
        else
@@ -554,11 +542,11 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return Boolean
      */
-    public static function clearFlashData()
+    public function clearFlashData()
     {
-       if(isset($_SESSION[self::FLASH_DATA_BAG_NAME]))
+       if(isset($_SESSION[$this->flash_data_bag_name]))
        {
-          unset($_SESSION[self::FLASH_DATA_BAG_NAME]);
+          unset($_SESSION[$this->_flash_data_bag_name]);
           return true;
        }
        
@@ -570,9 +558,9 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return Boolean
      */
-    public static function disableFlashMessages()
+    public function disableFlashMessages()
     {
-       return self::addFlashData(self::FLASH_MESSAGES_DISABLE_FLAG_NAME,1);
+       return $this->addFlashData('flash_messages_enable',1);
     }
     
     /**
@@ -580,41 +568,64 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return Boolean
      */
-    public static function enableFlashMessages()
+    public function enableFlashMessages()
     {
-       return self::addFlashData(self::FLASH_MESSAGES_DISABLE_FLAG_NAME,0);
+       return $this->addFlashData('flash_messages_enable',0);
     }
-    
     
     /**
      * Indica se i flash messages sono abilitati
      * 
      * @return Boolean
      */
-    public static function isEnableFlashMessages()
+    public function isEnableFlashMessages()
     {
-       return self::getFlashData(self::FLASH_MESSAGES_DISABLE_FLAG_NAME) == 0 ? true : false;
+       return $this->getFlashData('flash_messages_enable') == 0 ? true : false;
     }
     
-    
+    /**
+     * Restituisce il messaggio flash precedentemente impostato
+     * 
+     * @param String $type       Tipologia di messaggio, default 'success'
+     * @param Mixed  $default    Valore di default restituito, default FALSE
+     * 
+     * @return String
+     */
+    public function getFlashMessage($type = null,$default = false)
+    {
+       return $this->getFlashData($this->_flash_messages_types[$type ? $type : 'success'],$default);
+    }
+   
     /**
      * Aggiunge un messaggio flash di qualsiati tipo, default 'message'
      * <br>
      * <b>Attenzione! questo metodo controlla se sono abilitati i flash messages</b>
      * 
      * @param String $message Messaggio
-     * @param String $type    Tipologia di messaggio, default self::FLASH_MESSAGES_MESSAGE
+     * @param String $type    Tipologia di messaggio, default 'message.success'
      * 
      * @return Boolean
      */
-    public static function addFlashMessage($message,$type = self::FLASH_MESSAGES_MESSAGE)
+    public function addFlashMessage($message,$type = 'success')
     {
-       if(self::isEnableFlashMessages())
+       if($this->isEnableFlashMessages())
        {
-          return self::addFlashData($type,$message);
+          return $this->addFlashData($this->_flash_messages_types[$type],$message);
        }
        
        return false;
+    }
+    
+    /**
+     * Restituisce il messaggio flash di warning precedentemente impostato
+     * 
+     * @param Mixed $default Valore di default, default FALSE
+     * 
+     * @return String
+     */
+    public function getFlashMessageWarning($default = false)
+    {
+       return $this->getFlashMessage('warning',$default);
     }
     
     /**
@@ -626,14 +637,21 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return Boolean
      */
-    public static function addFlashMessageWarning($message)
+    public function addFlashMessageWarning($message)
     {
-       if(self::isEnableFlashMessages())
-       {
-          return self::addFlashData(self::FLASH_MESSAGES_WARNING,$message);
-       }
-       
-       return false;
+       return $this->addFlashMessage($message, 'warning');
+    }
+    
+    /**
+     * Restituisce il messaggio flash di error precedentemente impostato
+     * 
+     * @param Mixed $default Valore di default, default FALSE
+     * 
+     * @return String
+     */
+    public function getFlashMessageError($default = false)
+    {
+       return $this->getFlashMessage('error',$default);
     }
     
     /**
@@ -645,51 +663,9 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return Boolean
      */
-    public static function addFlashMessageError($message)
+    public function addFlashMessageError($message)
     {
-       if(self::isEnableFlashMessages())
-       {
-          return self::addFlashData(self::FLASH_MESSAGES_ERROR,$message);
-       }
-       
-       return false;
-    }
-    
-    /**
-     * Verifica che vi sia un flash Message impostato
-     * 
-     * @return Boolean
-     */
-    public static function hasFlashMessage()
-    {
-        return self::getFlashData(self::FLASH_MESSAGES_MESSAGE,false,false) != false  ||
-               self::getFlashData(self::FLASH_MESSAGES_WARNING,false,false) != false  ||
-               self::getFlashData(self::FLASH_MESSAGES_ERROR,false,false)   != false;
-    }
-        
-    /**
-     * Restituisce il messaggio flash precedentemente impostato
-     * 
-     * @param String $type       Tipologia di messaggio, default self::FLASH_MESSAGES_MESSAGE
-     * @param Mixed  $default    Valore di default restituito, default FALSE
-     * 
-     * @return String
-     */
-    public static function getFlashMessage($type = self::FLASH_MESSAGES_MESSAGE,$default = false)
-    {
-       return self::getFlashData($type,$default);
-    }
-    
-    /**
-     * Restituisce il messaggio flash di warning precedentemente impostato
-     * 
-     * @param Mixed $default Valore di default, default FALSE
-     * 
-     * @return String
-     */
-    public static function getFlashMessageWarning($default = false)
-    {
-       return self::getFlashData(self::FLASH_MESSAGES_WARNING,$default);
+       return $this->addFlashMessage($message, 'error');
     }
     
     /**
@@ -699,9 +675,57 @@ class Application_SessionManager  implements Interface_ArrayTraversable,ArrayAcc
      * 
      * @return String
      */
-    public static function getFlashMessageError($default = false)
+    public function getFlashMessageNotify($default = false)
     {
-       return self::getFlashData(self::FLASH_MESSAGES_ERROR,$default);
+       return $this->getFlashMessage('notify',$default);
+    }
+     
+    /**
+     * Aggiunge un messaggio flash di notify
+     * <br>
+     * <b>Attenzione! questo metodo controlla se sono abilitati i flash messages</b>
+     * 
+     * @param String $message Messaggio
+     * 
+     * @return Boolean
+     */
+    public function addFlashMessageNotify($message)
+    {
+       return $this->addFlashMessage($message, 'notify');
     }
     
+    /**
+     * Verifica che vi sia un flash Message di un certo tipo impostato, o se ne ha uno di message.*
+     * 
+     * @return Boolean
+     */
+    public function hasFlashMessage($type = null)
+    {
+        $type = $type ? $this->_flash_messages_types[$type] : $type;
+        
+        if(!empty($type))
+        {
+            return  $this->getFlashData($type,false,false) != false;
+        }
+        
+        $has = false;
+        
+        foreach($this->_flash_messages_types as $type => $flashKey)
+        {
+            $has = $this->getFlashData($flashKey, false, false) || $has;
+        }
+        
+        return $has;
+    }
+        
+   
+    /**
+     * Restituisce tutte le tipologie di flash messages supportati
+     * 
+     * @return Array
+     */
+    public function getAllFlashMessagesTypes()
+    {
+        return array_keys($this->_flash_messages_types);
+    }
 }

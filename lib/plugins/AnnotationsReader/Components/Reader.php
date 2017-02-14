@@ -55,7 +55,7 @@ class Reader
             $this->class = $class;
             return $this;
         }
-        
+
         throw new ReaderException('Non è possibile leggere le annotazioni per il termine indicato '.print_r($class,true),47257548);
     }
     

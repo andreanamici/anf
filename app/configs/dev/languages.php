@@ -7,11 +7,11 @@ define("LANGUAGES_LOCALE_AVAILABLE",serialize(array(
     
             "it" => array( "locale"   => "it_IT",
                            "name"     => "Italiano",
-                           "default"  => true
                     ),
 
-            "en" => array( "locale" => "en_US",
-                            "name"  => "English"
+            "en" => array( "locale"    => "en_US",
+                            "name"     => "English",
+                            "default"  => true
                     ),
 //
 //            "fr" => array( "locale" => "fr_FR",

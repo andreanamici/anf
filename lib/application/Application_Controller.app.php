@@ -3,7 +3,7 @@
 /**
  * Controller di base per processare le action dell'applicazione
  */
-class Application_Controller implements \Interface_Controllers
+class Application_Controller extends Abstract_ActionMagicMethods implements \Interface_Controllers
 {
     use Trait_Singleton,Trait_ObjectUtilities;
     

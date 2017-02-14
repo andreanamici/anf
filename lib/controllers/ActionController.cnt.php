@@ -116,29 +116,6 @@ class Controllers_ActionController extends Application_Controller
        parent::__construct($action);
        $this->_init();
     }
-    
-    /**
-     * Inizializza e/o cambia la lingua del portale e aggiorna informazioni relative all'applicationTemplating
-     * 
-     * @param String $lang Lingua da impostare in formato small{2}
-     * 
-     * @return Controllers_RequestController
-     */
-    public function initPortalLanguage($lang = null)
-    {        
-        $sessionManager = $this->getService('session'); /*@var $sessionManager Application_SessionManager*/
-        $httpRequest    = $this->getService('httprequest');/*@var $httpRequest Application_HttpRequest*/
-        
-        $lang           = strlen($lang) == 0 ? $httpRequest->get('lang',$sessionManager->getIndex('lang',null)) : $lang;
-
-        $this->getApplicationLanguages()->changeLanguage($lang);
-        
-        $sessionManager->addIndex("lang",$this->getApplicationLanguages()->getPortalLanguage());
-        $sessionManager->addIndex("locale",$this->getApplicationLanguages()->getPortalLocale());
-
-        return $this;
-    }
-     
      
     /**
      * Inizializza il controller in base all'azione
@@ -148,10 +125,7 @@ class Controllers_ActionController extends Application_Controller
      * @return Boolean
      */
     protected function _init()
-    {
-        $this->initPortalLanguage();  
-        $this->getApplicationTemplating()->initTemplateEngine();
-        
+    {        
         return $this;
     }
     
@@ -493,7 +467,7 @@ class Controllers_ActionController extends Application_Controller
                    $logMessage = " \nUrl:      ".self::getApplicationHttpRequest()->getServer()->getIndex("REQUEST_URI")."\n".
                                  " Action:     ".get_class($this->_action_object)."->".$methodName."()\n\n".
                                  " MainAction: ".($this->_main_action ? 'true' : 'false').'\n'.
-                                 " Response:   ".print_r($actionResponse->getResponse()->getArrayCopy(),true);
+                                 " Response:   ".print_r(json_encode($actionResponse->getResponse()->getArrayCopy()),true);
 
                    self::writeLog($logMessage,'actionresponse','a+',false);
                 }
@@ -618,7 +592,14 @@ class Controllers_ActionController extends Application_Controller
        }
        catch(\Exception $e)
        {
-           $controllerResponse = $this->generateControllerResponse((string) $e);
+           if($e instanceof \Exception_RedirectException)
+           {
+              $controllerResponse = $this->generateControllerResponse((string) $e);
+           }
+           else
+           {
+              throw $e;   
+           }
        }
        
        return $controllerResponse;
@@ -655,7 +636,14 @@ class Controllers_ActionController extends Application_Controller
        }
        catch(\Exception $e)
        {
-           $controllerResponse = $this->generateControllerResponse((string) $e);
+           if($e instanceof \Exception_RedirectException)
+           {
+              $controllerResponse = $this->generateControllerResponse((string) $e);
+           }
+           else
+           {
+              throw $e;   
+           }
        }
        
        return $controllerResponse;
@@ -902,13 +890,17 @@ class Controllers_ActionController extends Application_Controller
             {   
                foreach($reflectionParameters as $reflectionParameter)/*@var $reflectionParameter \ReflectionParameter*/
                {                   
-                   $serviceName = $this->getApplicationServices()->getServiceNameByVariable($reflectionParameter->getName());
-
                    $serviceInstance = false;
 
                    try
                    {
-                       $serviceInstance = $this->getApplicationServices()->getService($serviceName);
+                       $serviceInstance = $this->getApplicationServices()->getService($reflectionParameter->getName());
+                       
+                       if(!$serviceInstance)
+                       {
+                           $serviceName     = $this->getApplicationServices()->getServiceNameByVariable($reflectionParameter->getName());
+                           $serviceInstance =  $this->getApplicationServices()->getService($serviceName);
+                       }
                    }
                    catch(\Exception $e)
                    {
@@ -1220,7 +1212,7 @@ class Controllers_ActionController extends Application_Controller
                     
           foreach($actionParametersArray as $key => $value)
           {
-               $this->getService('httprequest')->set($key,$value);
+               $this->getApplicationHttpRequest()->getGet()->exchangeArray($actionParameter->getArrayCopy());
           }
                           
           if($this->_action_parameters->offsetExists('lang'))

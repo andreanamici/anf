@@ -46,3 +46,7 @@ DAY06_MIN: Sa
 DAY07: Sunday
 DAY07_SHORT: Sun
 DAY07_MIN: Su
+
+WELCOME_WRONG_DATA:    Submitted data is not complete!
+WELCOME_CORRECT_DATA:  You have successfull meet now {{name}}
+WELCOME_NAME_GO_LINK:  Go public meet page

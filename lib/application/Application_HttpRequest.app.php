@@ -188,7 +188,7 @@ class Application_HttpRequest
                                 
       $this->GET      =  !is_null($get) ? new \Application_ArrayObjectBag($get,array(
           
-                                Application_ArrayObjectBag::ON_OFFSET_GET     => function($key,$default,$xss = true)  use($self,&$get){ $val = array_dot_notation($get, $key,$default); return $xss ?  $self->xssFilter($val) : $val; },
+                                Application_ArrayObjectBag::ON_OFFSET_GET     => function($key,$default = false,$xss = true)  use($self,&$get){ $val = array_dot_notation($get, $key,$default); return $xss ?  $self->xssFilter($val) : $val; },
                                 Application_ArrayObjectBag::ON_OFFSET_SET     => function($key,$value) use($self,&$get){ $get[$key] = $value;  },
                                 Application_ArrayObjectBag::ON_OFFSET_UNSET   => function($key) use($self,&$get){ unset($get[$key]); },
                                 Application_ArrayObjectBag::ON_OFFSET_ALL     => function($xss = true)  use($self,&$get){ return $xss ? $self->xssFilter($get) : $get; },

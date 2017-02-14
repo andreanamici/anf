@@ -46,7 +46,7 @@ anf('@hooks')->registerHook(function(\Application_HooksData $hookData){
     }
     
     $formValidationEngine = FormValidationEngine::getInstance();
-    
+        
     $hookData->getKernel()->getApplicationServices()
                           ->unregisterService('form_validation')
                           ->registerService('form_validation',$formValidationEngine);

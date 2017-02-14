@@ -705,7 +705,7 @@ class Application_Services
             {
                 return self::throwNewException(92374092743902, 'Non è possibile registare il servizio '.$serviceName.' poichè non è stata indicata la classe (parametro class) ');
             }
-            
+         
             if(!is_object($serviceClass) && !$serviceFilePath && !class_exists($serviceClass))
             {
                 return self::throwNewException(8126902374920734, 'Non è possibile registare il servizio '.$serviceName.' poichè la classe ricercata "'.$serviceClass.'" non è stata trovata');

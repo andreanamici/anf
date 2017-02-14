@@ -47,3 +47,7 @@ DAY06_MIN: Sa
 DAY07: Domenica
 DAY07_SHORT: Dpm
 DAY07_MIN: Do
+
+WELCOME_WRONG_DATA:    I dati indicati non sono completi
+WELCOME_CORRECT_DATA:  Hai correttamente indicato un nuovo nome da salutare in {{name}}
+WELCOME_NAME_GO_LINK:  Vai alla pagina di saluto pubblica

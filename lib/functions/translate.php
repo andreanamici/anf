@@ -18,17 +18,6 @@ if(!function_exists('translate'))
     */
    function translate($code,$domain = null ,array $replacement = array(),$returnDefault = false)
    {
-      if(is_array($domain))
-      {
-          $replacement = $domain;
-          $domain      = null;
-      }
-     
-      if(is_string($replacement)) 
-      {
-          $domain = $replacement;
-      }
-
       return getApplicationService('translate')->translate($code,$domain,$replacement,$returnDefault);
    }
 }

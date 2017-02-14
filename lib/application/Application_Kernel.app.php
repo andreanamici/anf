@@ -1475,7 +1475,7 @@ class Application_Kernel
    public function _onException(Exception $e,$processHook = false)
    {
       $tplPath  = "";
-      
+            
       try
       {
                     
@@ -1590,7 +1590,7 @@ class Application_Kernel
        {           
             $tplPath = $e->getTplErrorPath();
             
-            if(!ob_get_status())
+            if(ob_get_status())
             {
                 @ob_clean();
             }
@@ -1707,7 +1707,7 @@ class Application_Kernel
    protected function flushErrorContent($errorMessage,$errorCode,$closeKernel = true)
    {
        $content = $errorMessage.", code: ".$errorCode;
-       
+
        try
        {
             if($this->config)
