@@ -10,16 +10,16 @@ actions useful for example in an application Restfull
 ## Supports: ##
 
 * HMVC pattern
-* Depedency management by composer
-* Namespaces supports
-* Caching Layer, support APC, memcached
+* Third party dependency by composer
+* Namespaces autoloading support
+* Caching Layer, usign APC, memcached o file caching
 * Session Handler ready
-* Multiple enviroment, native app_dev.php (for debug mode), app.php (production) and app_test.php (for unit test)
-* Multiple db management
-* Packages multiple applications
+* Multiple environment, native app_dev.php (for debug mode), app.php (production) and app_test.php (for unit test)
+* Multiple database connection management
+* Extendible by packages multiple applications
 * Plugins support, you can create a single plugin and use in your application
-* Event Management via the "hooks"
-* Translations with native support "php", "xml", "yml"
+* Core extendend by "hooks"
+* i18n support translations with native support of "php", "xml", "yml" or other extensions files
 * Routing system
 * Services and dependency injection
 * Multiple template engine, native support of "RainTPL", "smarty" and "Twig"
@@ -59,7 +59,7 @@ class Action_myaction extends Abstract_ActionObject
 
 ```php
 <html>
-    <title>anf - Andrea Namici Framework</title>    
+    <title>anf - Alternative Framework</title>    
     <body>
         <p>
             Hi <?php echo $foo;?>
@@ -120,7 +120,7 @@ class MyController extends \Application_Controller
 }
 ```
 
-You can create your own routing path and bind ActionObject or ActionController in app/config/application_routing.php
+You can create your own routing path and process http response by the ActionObject or ActionController in app/config/application_routing.php
 
 <?php
 
@@ -128,13 +128,7 @@ return array(
  
     '_welcome_last' => array(
         'path'      => '/welcome/last',
-        'action'    => 'controllers\WelcomeController::helloName',
-        'defaults'  => array(
-            'name' => '@session.welcome_name',  //service string
-        ),
-        'params'    => array(
-            'name' => '(:[string])'
-        )
+        'action'    => 'controllers\WelcomeController::helloName'
     ),
         
     '_welcome_name' => array(
@@ -156,22 +150,21 @@ or in app/application_routing.yml:
 ```
 
 _welcome_last: 
-        path: "/welcome/last",
-        action: "controllers\WelcomeController::helloName",
-        defaults:
-            name: @session.welcome_name
+        path: /welcome/last
+        action: "controllers\WelcomeController::helloName"
         params:
             name: "(:[string])"
 
 _welcome_name: 
-        path: "/welcome/{name}",
-        action: "controllers\WelcomeController::helloName",
+        path: /welcome/{name}
+        action: "controllers\WelcomeController::helloName"
         defaults:
-            name: "guest"
+            name: guest
         params:
             name: "(:[string])"
 ```
 
+You can read the [Summary](app/resources/doc/SUMMARY.md) for all examples and user guide
 
 
 ## Environments Requirements:
@@ -185,8 +178,8 @@ We use [Git](http://semver.org/) for versioning.
 
 ## Authors and other Contributors
 
-* **Andrea Namici** - *Initial work* - (https://bitbucket.org/andrea_namici)
-* **Luca Tariciotti**
+* **Andrea Namici** - *Author* - (https://bitbucket.org/andrea_namici) since 01/2015
+* **Luca Tariciotti** - *Controbutor* since 02/2017
 
 ## License
 
