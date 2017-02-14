@@ -1,4 +1,4 @@
-# ANF - Alternative Native Framework #
+# ANF - Alternative Framework #
 
 **anf** is a php framework born from the experience and the need for a user-friendly, flexible and easily extensible framework.
 
