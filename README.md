@@ -44,7 +44,7 @@ ____________________________________________________
 ```php
 <?php
 
-class Action_myaction
+class Action_myaction extends Abstract_ActionObject
 {
    public function doProcessMe(\Application_ActionRequestData $requestData)
    {
