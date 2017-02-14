@@ -120,7 +120,7 @@ class MyController extends \Application_Controller
 }
 ```
 
-You can create your own routing path and bind ActionObject or ActionController in app/application_routing.php
+You can create your own routing path and bind ActionObject or ActionController in app/config/application_routing.php
 
 <?php
 
