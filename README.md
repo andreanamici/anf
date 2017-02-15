@@ -31,7 +31,7 @@ actions useful for example in an application Restfull
 * webProfiles: package for create a profiles toolbar 
 * webUtility: package for use phpmyadmin tools
 
-### How does it work?
+### Quick start: How does it work?
 
 anf support two ways to process an action and return a response valid to be release by kernel:
 
@@ -163,6 +163,21 @@ _welcome_name:
         params:
             name: "(:[string])"
 ```
+
+## How to access to anf services outside Controller / ActionObject ?
+
+```php
+
+$service = anf(<service_name>)
+
+//Example SessionManager service:
+
+$sessionManager = anf('session');
+
+debug_print_r_die($sessionManager->getAll());
+
+```php
+
 
 ## You can read the [Summary](app/resources/doc/SUMMARY.md) for all examples and user guide
 
