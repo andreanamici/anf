@@ -179,7 +179,7 @@ debug_print_r_die($sessionManager->getAll());
 ```php
 
 
-## You can read the [Summary](app/resources/doc/SUMMARY.md) for all examples and user guide
+## You can read the [Summary](app/resources/docs/SUMMARY.md) for all examples and user guide
 
 
 ## Environments Requirements:
