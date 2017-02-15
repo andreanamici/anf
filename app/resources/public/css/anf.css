@@ -1,0 +1,18 @@
+
+@import url('https://fonts.googleapis.com/css?family=ABeeZee');
+
+body
+{
+    font-family: 'ABeeZee', sans-serif;
+    padding: 0px;
+    margin: 0px;
+}
+
+.main-page 
+{
+    width: 460px;
+    margin: 0 auto;
+    top: 20%;
+    position: relative;
+    left: 0%;
+}

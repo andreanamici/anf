@@ -39,7 +39,7 @@ class Hooks_localeXmlLoader extends Abstract_Hooks
                $arrayIteratorCatalogue->offsetSet((string) $id,(string) $value);
             }
         }
-        
+                
         $hookData->setData($arrayIteratorCatalogue);
    }
 }

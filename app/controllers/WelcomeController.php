@@ -52,6 +52,21 @@ class WelcomeController extends BaseController
         return response('hello!');
     }
     
+    public function doEat(\Application_ActionRequestData $requestData)
+    {
+        
+        $this->getService('hooks')->registerHook(function(\Application_HooksData $data){
+                
+            $data->getKernel()->templating->addTemplate('index');
+            
+        }, \Interface_HooksType::HOOK_TYPE_PRE_TEMPLATE);
+        
+        return array(
+                    'name'              => '',
+                    'date'              => date_now(),
+                    'currentRoute'      => $this->getApplicationRoutingCurrentRouteData()->getRouteName()
+               );
+    }
     
     public function checkName($name)
     {

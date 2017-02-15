@@ -624,9 +624,9 @@ class Application_Templating implements Interface_ApplicationTemplating
              
         if(count($this->_tpl_build_arr) > 0)
         {
-           foreach($this->_tpl_build_arr as $template)
+           foreach($this->_tpl_build_arr as $key => $template)
            {   
-              $this->_tpl_to_load[] = $this->buildTplPath($template); //Template 
+              $this->_tpl_to_load[$key] = $this->buildTplPath($template); //Template 
            }
         }
         
@@ -650,12 +650,27 @@ class Application_Templating implements Interface_ApplicationTemplating
             {   
                $hookData['templates'][$key] =  $this->buildTplPath($template); //Template 
             }            
+                    
+            $this->_tpl_to_load  = $hookData['templates'];
+        }
+        else
+        {
+            if(count($this->_tpl_build_arr) > 0)
+            {
+               foreach($this->_tpl_build_arr as $key => $template)
+               {   
+                  $this->_tpl_to_load[$key] = $this->buildTplPath($template); //Template 
+               }
+            }
         }
         
-        $this->_tpl_to_load  = $hookData['templates'];
         $this->_params       = $hookData['params']; 
-        
-        if(count($this->_tpl_to_load) == 0)
+          
+        array_walk($this->_tpl_to_load, function(&$value){$value=realpath($value);});
+       
+        $this->_tpl_to_load = array_filter($this->_tpl_to_load, function($value){ return !empty($value); });
+       
+        if(count($this->_tpl_to_load) == 0 && count($this->_tpl_build_arr)==0)
         {
             return self::throwNewException(92938849048859,"Nessun template da renderizzare");
         }
@@ -770,7 +785,7 @@ class Application_Templating implements Interface_ApplicationTemplating
        {
           return self::throwNewException(92394923483465757,"Nessun Template da Caricare!");
        }
-       array_walk($this->_tpl_to_load, function(&$value){$value=realpath($value);});
+       
        //Controllo esistenza Template!
        foreach($this->_tpl_to_load as $template)
        {
@@ -778,7 +793,7 @@ class Application_Templating implements Interface_ApplicationTemplating
           {
              if($this->getKernelDebugActive())
              {
-                return self::throwNewException(210392084207204,"Template Invalido: {$template}");
+                return self::throwNewException(210392084207204,"Template Invalido: {$template}". print_r($this->_tpl_to_load,true));
              }
              else
              {
@@ -810,8 +825,9 @@ class Application_Templating implements Interface_ApplicationTemplating
               
        ob_start();
        
-       foreach($this->_tpl_to_load as $template){
-          require_once $template;
+       foreach($this->_tpl_to_load as $template)
+       {
+          include $template;
        }
        
        $output = ob_get_clean();
@@ -882,7 +898,7 @@ class Application_Templating implements Interface_ApplicationTemplating
         {
             return $package->getResourceUrl($absolute) . DIRECTORY_SEPARATOR . $resource;
         }
-        
+
         return ($absolute ? $httpRequest->getBaseUrl() : $httpRequest->getPath()). 'app'.DIRECTORY_SEPARATOR .APPLICATION_TEMPLATING_ASSETS_PATH. DIRECTORY_SEPARATOR .$resource;
     }
     

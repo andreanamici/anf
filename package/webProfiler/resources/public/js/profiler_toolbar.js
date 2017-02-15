@@ -67,8 +67,25 @@ $(document).ready(function(){
                    var top = ((height / 2) - (h / 2)) + dualScreenTop;
                   
                    var w = window.open("",'command',"width="+w+",height="+h+",top="+top+",left="+left);
-                   w.document.title = 'Profiler Command';
-                   w.document.body.innerHTML = response.response;
+                   
+                   if(w)
+                   {
+                      w.document.title = 'Profiler Command::'+$commandInput.val();
+                      w.document.body.innerHTML = '<h1 style="text-align:center">'+$commandInput.val()+'</h1>'+response.response;
+                      w.focus();
+                   } 
+                   
+                   setTimeout( function() {
+                       if(!w || w.outerHeight === 0) {
+                           //First Checking Condition Works For IE & Firefox
+                           //Second Checking Condition Works For Chrome
+                           alert("Popup Blocker is enabled! Please add this site to your exception list.");
+                       } else {
+                           //Popup Blocker Is Disabled
+                           window.open('','_self');
+                           window.close();
+                       } 
+                   }, 25);
                }
             }
             

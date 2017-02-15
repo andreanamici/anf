@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<dictionary>
+    <translate>
+        <id>ADMIN_HELLO</id>
+        <value>Ciao admin!</value>
+    </translate>
+</dictionary>

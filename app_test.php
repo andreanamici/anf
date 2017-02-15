@@ -1,7 +1,7 @@
 <?php
 
 /**
- * anframework
+ * anf - Alternative Framework
  * 
  * [TEST AREA] 
  * 

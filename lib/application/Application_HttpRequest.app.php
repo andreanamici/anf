@@ -163,9 +163,9 @@ class Application_HttpRequest
  
       $sessionManager =  $this->getApplicationKernel()->get('@session');/*@var $sessionManager Application_SessionManager*/
       $cookieManager  =  $this->getApplicationKernel()->get('@cookie'); /*@var $cookieManager Application_CookieManager*/
-      
+
       $self = $this;
-      
+            
       $this->REQUEST  =  !is_null($request) ? new \Application_ArrayObjectBag($request,array(
           
                                 Application_ArrayObjectBag::ON_OFFSET_GET      => function($key,$default = false,$xss = true) use($self,&$request){ $val = array_dot_notation($request, $key,$default); return $xss ?  $self->xssFilter($val) : $val; },
@@ -266,9 +266,14 @@ class Application_HttpRequest
           {
              $this->_baseurl = '/';
           }
-          
+
           $this->_path                       = str_replace($this->_host,'',$this->_baseurl);
           $this->_path_without_scriptname    = preg_replace('/[a-z\_]+\.php/','',$this->_baseurl);   //Rimuovo eventuali front-controller dall'url
+          
+          if(empty($this->_path_without_scriptname) || substr($this->_path_without_scriptname,-1) != '/')
+          {
+              $this->_path_without_scriptname.= '/'; 
+          }
           
           $this->_is_https      = isset($this->SERVER['HTPS']) && $this->SERVER['HTTPS'] == 'on' ? true : false;
           $this->_protocol_host = $this->_protocol.'://'.$this->_host;
@@ -653,7 +658,7 @@ class Application_HttpRequest
     */
    public static function createFromGlobals()
    {
-       $httpRequest =  new static();
+       $httpRequest =  new static();    
        return $httpRequest->initialize($_REQUEST, $_POST, $_GET, isset($_SESSION) ? $_SESSION : array(), $_SERVER, $_FILES, $_COOKIE, $_ENV);
    }
    
