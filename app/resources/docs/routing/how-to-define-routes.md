@@ -5,7 +5,7 @@ You can create your own routing path and process http response by the ActionObje
 
 Example using **app/config/application_routing.php**
 
-```php
+```
 
 return array(
  
@@ -28,7 +28,7 @@ return array(
     
 );
 
-```php
+```
 
 
 or in **app/application_routing.yml**:
@@ -71,13 +71,13 @@ the variable $name binded in the routing.
 
 Inside an actionObject/ActionController, if you want to generate an URL / Path for route "_welcome_name"
 
-```php
+```
 
     $urlRelative = $this->generateUrl('_welcome_name', ['name' => 'andrea']);
 
     $urlAbsolute = $this->generateUrl('_welcome_name', ['name' => 'andrea'], true);
 
-```php
+```
 
 Inside an actionObject/ActionController, if you want to generate an URL / Path for route "_welcome_name"
 

@@ -8,6 +8,6 @@ ANF SUMMARY
 ## anf Services ##
 
 1. [Routing] (routing/)
-        1. [Introduction](source/introduction.md)
-	1. [How to define routes](source/how-does-it-work.md)
-	1. [Advanced routing](source/advance-routing.md)
+        1. [Introduction](routing/introduction.md)
+	1. [How to define routes](routing/how-does-it-work.md)
+	1. [Advanced routing](routing/advance-routing.md)

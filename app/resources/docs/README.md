@@ -41,7 +41,7 @@ anf support two ways to process an action and return a response valid to be rele
 ____________________________________________________
 #### Create an ActionObject class in app/action
 
-```php
+```
 <?php
 
 class Action_myaction extends Abstract_ActionObject
@@ -57,7 +57,7 @@ class Action_myaction extends Abstract_ActionObject
 
 #### Create a view in app/resources/views/index.php and use variable returned by ActionObject
 
-```php
+```
 <html>
     <title>anf - Alternative Framework</title>    
     <body>
@@ -76,7 +76,7 @@ Each controller must return these type of data:
 * String convertend in HTML response
 * \Application_ControllerResponseData
 
-```php
+```
 <?php
 
 use plugins\FormValidationEngine\Form\FormValidationEngine;
@@ -166,7 +166,7 @@ _welcome_name:
 
 ## How to access to anf services outside Controller / ActionObject ?
 
-```php
+```
 
 $service = anf(<service_name>)
 
@@ -176,7 +176,7 @@ $sessionManager = anf('session');
 
 debug_print_r_die($sessionManager->getAll());
 
-```php
+```
 
 
 ## You can read the [Summary](app/resources/docs/SUMMARY.md) for all examples and user guide
