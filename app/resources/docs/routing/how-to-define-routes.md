@@ -67,7 +67,7 @@ and execute method "helloName". This method has the first argument the **\Applic
 the variable $name binded in the routing.
 
 
-## How to generate Url e path ? ##
+## How to generate Url or Path ? ##
 
 Inside an actionObject/ActionController, if you want to generate an URL / Path for route "_welcome_name"
 
