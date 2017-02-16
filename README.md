@@ -193,7 +193,7 @@ We use [Git](http://semver.org/) for versioning.
 ## Authors and other Contributors
 
 * **Andrea Namici** - *Author* - (https://bitbucket.org/andrea_namici) since 01/2015
-* **Luca Tariciotti** - *Controbutor* since 02/2017
+* **Luca Tariciotti** - *Contributor* since 02/2017
 
 ## License
 
