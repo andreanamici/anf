@@ -2,10 +2,9 @@
 
 **anf** is a php framework born from the experience and the need for a user-friendly, flexible and easily extensible framework.
 
-The framework now allows immediate use out of the box without too much configuration.
+The framework now allows immediate out of the box use without too much configuration.
 
-You can use "anf" to create small and large applications, even using it as a micro-framework, registering faster routes - actions (Closure supports) to process the 
-actions useful for example in an application Restfull
+You can use "anf" to create small and large applications, even using it as a micro-framework, registering faster routes - actions (Closure supports) to process actions in RESTful applications
 
 ## Supports: ##
 
