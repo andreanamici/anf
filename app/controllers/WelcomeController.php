@@ -16,10 +16,10 @@ class WelcomeController extends BaseController
      * 
      * @return \Application_ControllerResponseData
      */
-    public function helloName(\Application_ActionRequestData $requestData, $name,FormValidationEngine $form_validation, \Application_SessionManager $session)
+    public function helloName(\Application_ActionRequestData $requestData ,$name = 'john', FormValidationEngine $form_validation, \Application_SessionManager $session)
     {
         $sessionData    = $requestData->getSession();
-                
+        
         if($requestData->isMethodPost())        
         {   
             $form_validation->set_rules('name','Nome','required|callback_checkName', 'indicare un nome valido');

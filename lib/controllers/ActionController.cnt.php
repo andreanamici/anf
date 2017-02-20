@@ -416,7 +416,7 @@ class Controllers_ActionController extends Application_Controller
             {
                 $methodParameters = array($this->getActionRequestData());
             }
-            
+
             $actionResponse = call_user_func_array(array($this->_action_object,$methodName),$methodParameters);   //Processo ActionObject Metodo Specifico            
             
             $this->_action_processed_number++;
@@ -879,7 +879,7 @@ class Controllers_ActionController extends Application_Controller
                 $reflectionParameters = $reflectionMethod->getParameters();
             }
         }
-        
+                
         if($reflectionParameters)
         {
             $requestData = $this->getActionRequestData();
@@ -888,7 +888,7 @@ class Controllers_ActionController extends Application_Controller
 
             if($reflectionParameters && is_array($reflectionParameters) && count($reflectionParameters) > 0)
             {   
-               foreach($reflectionParameters as $reflectionParameter)/*@var $reflectionParameter \ReflectionParameter*/
+               foreach($reflectionParameters as $index => $reflectionParameter)/*@var $reflectionParameter \ReflectionParameter*/
                {                   
                    $serviceInstance = false;
 
@@ -909,41 +909,33 @@ class Controllers_ActionController extends Application_Controller
 
                    if($serviceInstance)
                    {
-                       $methodParameters[] = $serviceInstance;
+                       $methodParameters[$index] = $serviceInstance;
                    }
                    else
                    {
-                       if(!$reflectionParameter->isOptional())
+                       $routingDefaultsData    = $this->getApplicationRoutingCurrentRouteData()->getDefaults();
+                       $parameterDefaultValue  = $reflectionParameter->isDefaultValueAvailable() ? $reflectionParameter->getDefaultValue() : null;
+                       $routingDefaultValue    = $routingDefaultsData->offsetExists($reflectionParameter->getName()) ? $routingDefaultsData->offsetGet($reflectionParameter->getName()) : null;
+                       
+                       if($requestData->getGet()->offsetExists($reflectionParameter->getName()))    //Parametro presente nella query String GET
                        {
-                           if($requestData->get($reflectionParameter->getName()) !== false)
-                           {
-                               $methodParameters[] = $requestData->get($reflectionParameter->getName());
-                           }
-                           else if($this->getApplicationRoutingCurrentRouteData()->getDefaults()->offsetExists($reflectionParameter->getName()))
-                           {
-                                $methodParameters[] = $this->getApplicationRoutingCurrentRouteData()->getDefaults()->offsetGet($reflectionParameter->getName());
-                           }
-                           else
-                           {
-                               return self::throwNewException(283482599745020023482835, 'Questo actionObject "'.$object.'" per il  metodo "'.$methodName.'" non prevede un valore di default per il parametro "'.$reflectionParameter->getName().'" , che non è ne un service registrato, ne un valore presente nella httprequest attualmente elaborata');
-                           }
+                           $methodParameters[$index] = $requestData->getGet()->offsetGet($reflectionParameter->getName());
                        }
-                       else
-                       {   
-                            if($requestData->get($reflectionParameter->getName()) !== false)
-                            {
-                                $methodParameters[] = $requestData->get($reflectionParameter->getName());
-                            }
-                            else if($this->getApplicationRoutingCurrentRouteData()->getDefaults()->offsetExists($reflectionParameter->getName()))
-                            {
-                                $methodParameters[] = $this->getApplicationRoutingCurrentRouteData()->getDefaults()->offsetGet($reflectionParameter->getName());
-                            }
-                            else
-                            {
-                                $methodParameters[] = $reflectionParameter->getDefaultValue();
-                            }
+                       else if(($routingDefaultsData->offsetExists($reflectionParameter->getName()) && empty($routingDefaultValue)) || !empty($routingDefaultValue))    //Parametro presente tra i quelli di defaults nelle rotte
+                       {
+                             $methodParameters[$index] = $routingDefaultValue;
                        }
+                       else if(!empty($parameterDefaultValue)) //Parametro dichiarato nel metodo stesso
+                       {
+                            $methodParameters[$index] = $parameterDefaultValue;
+                       }
+                       else if(!$reflectionParameter->isOptional()) //Se non è opzionale errore
+                       {
+                           return self::throwNewException(283482599745020023482835, 'Questo ActionObject "'.$object.'" per il  metodo "'.$methodName.'" non prevede un valore di default per il parametro "'.$reflectionParameter->getName().'" , che non è ne un service registrato, ne un valore presente nella httprequest attualmente elaborata');
+                       }
+                                     
                    }
+                   
                }
             }
         }
@@ -1213,11 +1205,6 @@ class Controllers_ActionController extends Application_Controller
           foreach($actionParametersArray as $key => $value)
           {
                $this->getApplicationHttpRequest()->getGet()->exchangeArray($actionParameter->getArrayCopy());
-          }
-                          
-          if($this->_action_parameters->offsetExists('lang'))
-          {
-             $this->initPortalLanguage($this->_action_parameters->offsetGet('lang'));
           }
        }
        

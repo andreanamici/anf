@@ -1112,12 +1112,12 @@ class DAO_DBManager extends DAO_DBsqlStatementBuilder
     */
    private function _checkConfiguration()
    {
-       if(!$this->getApplicationConfigs()->isConfigsExists("DB_MANAGER_CONFIGS"))
+       if(!$this->getConfigValue("DB_MANAGER_CONFIGS"))
        {
           return false;
        }
        
-       if(!$this->getApplicationConfigs()->isConfigsExists("DB_MANAGER_CONFIG_DEFAULT"))
+       if(!$this->getConfigValue("DB_MANAGER_CONFIG_DEFAULT"))
        {
           return false;
        }
@@ -1133,7 +1133,7 @@ class DAO_DBManager extends DAO_DBsqlStatementBuilder
     */
    private function initManagerConfigs()
    { 
-       $managerConfigs          = unserialize($this->getConfigValue('DB_MANAGER_CONFIGS'));
+       $managerConfigs          = $this->getConfigValue('DB_MANAGER_CONFIGS');
        self::$_MANAGERS_CONFIGS = $managerConfigs;
        
        return $this;

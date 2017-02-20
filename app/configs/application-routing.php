@@ -10,9 +10,6 @@ return array(
     '_welcome_last' => array(
         'path'      => '/welcome/last',
         'action'    => 'controllers\WelcomeController::helloName',
-        'defaults'  => array(
-            'name' => '@session.welcome_name',  //service string
-        ),
         'params'    => array(
             'name' => '(:[string])'
         )
@@ -22,7 +19,7 @@ return array(
         'path'      => '/welcome/{name}',
         'action'    => 'controllers\WelcomeController::helloName',
         'defaults'  => array(
-            'name' => 'guest',
+            'name' => '@session.welcome_name',
         ),
         'params'    => array(
             'name' => '(:[string])'
