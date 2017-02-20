@@ -2,10 +2,9 @@
 
 **anf** is a php framework born from the experience and the need for a user-friendly, flexible and easily extensible framework.
 
-The framework now allows immediate use out of the box without too much configuration.
+The framework now allows immediate out of the box use without too much configuration.
 
-You can use "anf" to create small and large applications, even using it as a micro-framework, registering faster routes - actions (Closure supports) to process the 
-actions useful for example in an application Restfull
+You can use "anf" to create small and large applications, even using it as a micro-framework, registering faster routes - actions (Closure supports) to process actions in RESTful applications
 
 ## Supports: ##
 
@@ -193,8 +192,8 @@ We use [Git](http://semver.org/) for versioning.
 
 ## Authors and other Contributors
 
-* **Andrea Namici** - *Author* - (https://bitbucket.org/andrea_namici) since 01/2015
-* **Luca Tariciotti** - *Controbutor* since 02/2017
+* **Andrea Namici** - *Author* - (https://bitbucket.org/andrea_namici) since 01/2015, personal site: (http://www.andreanamici.it)
+* **Luca Tariciotti** - *Contributor* since 02/2017
 
 ## License
 
