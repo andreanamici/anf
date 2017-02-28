@@ -929,7 +929,7 @@ class DAO_DBManager extends DAO_DBsqlStatementBuilder
     */
    public function prefixTable($table)
    {
-       if(strpos($table,$this->_table_prefix) === 0)
+       if(strlen($this->_table_prefix) === 0 || strpos($table,$this->_table_prefix) === 0)
        {
           return $table;
        }
