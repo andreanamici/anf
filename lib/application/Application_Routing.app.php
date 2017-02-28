@@ -587,6 +587,10 @@ class Application_Routing implements Interface_ApplicationRouting
    {
        if(count($routingMaps) > 0)
        {
+          if($prepend)
+          {
+              $routingMaps = array_reverse($routingMaps);
+          }
            
           foreach($routingMaps as $routeName => $routeInfo)
           {

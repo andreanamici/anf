@@ -40,9 +40,23 @@ class ComposerStaticInit2745e92de65f1cff7eb35f6645b7b505
         ),
     );
 
+    public static $prefixesPsr0 = array (
+        'D' => 
+        array (
+            'Detection' => 
+            array (
+                0 => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/namespaced',
+            ),
+        ),
+    );
+
     public static $fallbackDirsPsr0 = array (
         0 => __DIR__ . '/../..' . '/lib/plugins',
         1 => __DIR__ . '/../..' . '/lib/application',
+    );
+
+    public static $classMap = array (
+        'Mobile_Detect' => __DIR__ . '/..' . '/mobiledetect/mobiledetectlib/Mobile_Detect.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -50,7 +64,9 @@ class ComposerStaticInit2745e92de65f1cff7eb35f6645b7b505
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInit2745e92de65f1cff7eb35f6645b7b505::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit2745e92de65f1cff7eb35f6645b7b505::$prefixDirsPsr4;
+            $loader->prefixesPsr0 = ComposerStaticInit2745e92de65f1cff7eb35f6645b7b505::$prefixesPsr0;
             $loader->fallbackDirsPsr0 = ComposerStaticInit2745e92de65f1cff7eb35f6645b7b505::$fallbackDirsPsr0;
+            $loader->classMap = ComposerStaticInit2745e92de65f1cff7eb35f6645b7b505::$classMap;
 
         }, null, ClassLoader::class);
     }

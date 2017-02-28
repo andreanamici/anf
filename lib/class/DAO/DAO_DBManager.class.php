@@ -1130,12 +1130,12 @@ class DAO_DBManager extends DAO_DBsqlStatementBuilder
     */
    private function _checkConfiguration()
    {
-       if(!$this->getApplicationConfigs()->getConfigsValue("DB_MANAGER_CONFIGS"))
+       if(!$this->getConfigValue("DB_MANAGER_CONFIGS"))
        {
           return false;
        }
 
-       if(!$this->getApplicationConfigs()->getConfigsValue("DB_MANAGER_CONFIG_DEFAULT"))
+       if(!$this->getConfigValue("DB_MANAGER_CONFIG_DEFAULT"))
        {
           return false;
        }
